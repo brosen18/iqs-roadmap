@@ -6,14 +6,14 @@
       "name": "IQS Platform Selection",
       "link": "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016454078",
       "priority": "P0",
-      "start": "2026-05-01",
-      "end": "2026-05-15"
+      "start": "2026-05-02",
+      "end": "2026-05-16"
     },
     {
       "name": "IQS Architecture - Core Domains",
       "link": "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016944975",
       "priority": "P0",
-      "start": "2026-05-01",
+      "start": "2026-05-02",
       "end": null
     },
     {
@@ -21,13 +21,13 @@
       "link": null,
       "priority": "P0",
       "start": "2026-05-15",
-      "end": "2026-06-01"
+      "end": "2026-06-02"
     },
     {
       "name": "Factory/Supplier Integration [PLM]",
       "link": "https://chewyinc.atlassian.net/wiki/x/lwMgLAE",
       "priority": "P0",
-      "start": "2026-06-01",
+      "start": "2026-06-02",
       "end": null
     },
     {
@@ -38,24 +38,24 @@
       "end": null
     },
     {
+      "name": "NC/CAPA Capabilities",
+      "link": null,
+      "priority": "P0",
+      "start": "2026-07-02",
+      "end": null
+    },
+    {
       "name": "Factory Audit Template Upload & Ingestion",
       "link": null,
       "priority": "P0",
-      "start": null,
+      "start": "2026-08-02",
       "end": null
     },
     {
       "name": "Social Audit PDF Upload & Ingestion",
       "link": null,
       "priority": "P0",
-      "start": "2026-07-01",
-      "end": null
-    },
-    {
-      "name": "NC/CAPA Capabilities",
-      "link": null,
-      "priority": "P0",
-      "start": null,
+      "start": "2026-08-02",
       "end": null
     },
     {
@@ -69,7 +69,7 @@
       "name": "Supplier Portal",
       "link": null,
       "priority": "P0",
-      "start": "2027-01-01",
+      "start": "2027-12-02",
       "end": "2027-03-01"
     },
     {
@@ -84,7 +84,7 @@
       "link": null,
       "priority": "KEY",
       "start": "2026-11-02",
-      "end": "2026-11-01"
+      "end": "2026-11-02"
     },
     {
       "name": "Product/SKU Integration [PLM]",
