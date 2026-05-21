@@ -27,17 +27,15 @@
       "name": "Factory/Supplier Integration [PLM]",
       "link": null,
       "priority": "P0",
-      "start": null,
-      "end": null,
-      "startRaw": "June 1 2026"
+      "start": "2026-06-01",
+      "end": null
     },
     {
       "name": "Factory Audits",
       "link": null,
       "priority": "P0",
-      "start": null,
-      "end": null,
-      "startRaw": "june 20th, 2026"
+      "start": "2026-06-20",
+      "end": null
     },
     {
       "name": "Factory Audit Template Upload & Ingestion",
@@ -50,9 +48,8 @@
       "name": "Social Audit PDF Upload & Ingestion",
       "link": null,
       "priority": "P0",
-      "start": null,
-      "end": null,
-      "startRaw": "july,1,2026"
+      "start": "2026-07-01",
+      "end": null
     },
     {
       "name": "NC/CAPA Capabilities",
@@ -72,8 +69,8 @@
       "name": "Supplier Portal",
       "link": null,
       "priority": "P0",
-      "start": null,
-      "end": null
+      "start": "2027-01-01",
+      "end": "2027-03-01"
     },
     {
       "name": "AI Recommendation for Audit Frequencies",
@@ -86,7 +83,7 @@
       "name": "Final QMS Contract Decision",
       "link": null,
       "priority": "KEY",
-      "start": "2026-11-01",
+      "start": "2026-11-02",
       "end": "2026-11-01"
     },
     {
