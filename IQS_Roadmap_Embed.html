@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DEXLAB :: IQS Roadmap 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Inline&family=Russo+One&family=VT323&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wall: #00a8a8;
+    --panel: #f4ead5;
+    --panel-shadow: #d8c9a8;
+    --metal: #b8b8b8;
+    --red: #d72638;
+    --red-bright: #ff2e3e;
+    --yellow: #ffd23f;
+    --yellow-dark: #d4a800;
+    --green: #2ecc71;
+    --green-bright: #00ff66;
+    --black: #1a1a1a;
+    --ink: #222;
+    --ink-soft: #555;
+    --crt-green: #00ff66;
+    --crt-amber: #ffb000;
+    --crt-bg: #0a1a0a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--wall);
+    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 2; max-width: 1340px; margin: 0 auto; padding: 32px 24px 60px; }
+
+  .hazard {
+    height: 18px;
+    background: repeating-linear-gradient(-45deg, var(--yellow) 0 18px, var(--black) 18px 36px);
+    border-top: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+
+  .rivet {
+    position: absolute; width: 14px; height: 14px;
+    background: radial-gradient(circle at 35% 35%, #eee 0%, #888 35%, #444 80%, #222 100%);
+    border-radius: 50%; box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.5); z-index: 2;
+  }
+  .rivet.tl { top: 8px; left: 8px; }
+  .rivet.tr { top: 8px; right: 8px; }
+  .rivet.bl { bottom: 8px; left: 8px; }
+  .rivet.br { bottom: 8px; right: 8px; }
+
+  header {
+    margin-bottom: 24px; padding: 0; background: var(--panel);
+    border: 5px solid var(--black); box-shadow: 0 8px 0 var(--black);
+    position: relative; overflow: hidden;
+  }
+  .header-body { padding: 28px 36px 32px; display: grid; grid-template-columns: 80px 1fr auto; gap: 24px; align-items: center; }
+
+  .atomic { width: 80px; height: 80px; position: relative; }
+  .atomic .nucleus {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px; height: 16px; background: var(--red);
+    border: 3px solid var(--black); border-radius: 50%;
+  }
+  .atomic .orbit {
+    position: absolute; top: 50%; left: 50%;
+    width: 80px; height: 28px; border: 3px solid var(--black); border-radius: 50%;
+  }
+  .atomic .orbit:nth-child(2) { transform: translate(-50%, -50%) rotate(0deg); }
+  .atomic .orbit:nth-child(3) { transform: translate(-50%, -50%) rotate(60deg); }
+  .atomic .orbit:nth-child(4) { transform: translate(-50%, -50%) rotate(120deg); }
+
+  .title-block { text-align: left; }
+  .eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 6px;
+    display: inline-block; padding: 3px 10px;
+    background: var(--black); color: var(--yellow);
+  }
+  h1 {
+    font-family: 'Bungee', sans-serif; font-size: 44px; color: var(--black);
+    letter-spacing: 0.02em; line-height: 0.95; margin: 6px 0 4px; text-transform: uppercase;
+  }
+  h1 .accent { color: var(--red); }
+  .subtitle {
+    font-family: 'Russo One', sans-serif; font-size: 14px; color: var(--ink-soft);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .controls { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+  .light {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink);
+  }
+  .bulb {
+    width: 18px; height: 18px; background: var(--red);
+    border: 3px solid var(--black); border-radius: 50%;
+    box-shadow: 0 0 12px var(--red), inset 0 -3px 4px rgba(0, 0, 0, 0.4);
+    animation: pulse-light 1.2s ease-in-out infinite;
+  }
+  .bulb.green { background: var(--green); box-shadow: 0 0 12px var(--green), inset 0 -3px 4px rgba(0, 0, 0, 0.4); }
+  .bulb.yellow { background: var(--yellow); box-shadow: 0 0 10px var(--yellow), inset 0 -3px 4px rgba(0, 0, 0, 0.4); animation: none; }
+  @keyframes pulse-light {
+    0%, 100% { box-shadow: 0 0 8px var(--red), inset 0 -3px 4px rgba(0, 0, 0, 0.4); opacity: 0.85; }
+    50% { box-shadow: 0 0 18px var(--red), 0 0 28px rgba(215, 38, 56, 0.5), inset 0 -3px 4px rgba(0, 0, 0, 0.4); opacity: 1; }
+  }
+
+  #source-bar {
+    margin-bottom: 32px; background: var(--black); color: var(--yellow);
+    padding: 10px 22px; border: 4px solid var(--black);
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; box-shadow: 0 4px 0 var(--black);
+  }
+  #source-bar .src-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+  #source-bar .dot {
+    width: 10px; height: 10px; background: var(--green-bright); border-radius: 50%;
+    box-shadow: 0 0 8px var(--green-bright); flex-shrink: 0;
+  }
+  #source-bar .src-name { color: var(--panel); }
+  #source-bar .src-meta { color: var(--yellow); opacity: 0.8; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 40px; }
+  .crt { background: var(--metal); border: 4px solid var(--black); box-shadow: 0 6px 0 var(--black); padding: 16px; position: relative; }
+  .crt-screen {
+    background: var(--crt-bg); border: 3px solid var(--black);
+    border-radius: 16px / 24px; padding: 22px 12px 18px;
+    position: relative; overflow: hidden;
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.8), inset 0 0 4px rgba(0, 255, 102, 0.2);
+  }
+  .crt-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.25) 2px 3px);
+    pointer-events: none;
+  }
+  .crt-screen::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+    pointer-events: none;
+  }
+  .crt-value {
+    font-family: 'VT323', monospace; font-size: 64px; line-height: 1;
+    color: var(--crt-green); text-shadow: 0 0 6px var(--crt-green), 0 0 14px rgba(0, 255, 102, 0.5);
+    text-align: center; position: relative; z-index: 1;
+  }
+  .crt-value.amber { color: var(--crt-amber); text-shadow: 0 0 6px var(--crt-amber), 0 0 14px rgba(255, 176, 0, 0.5); }
+  .crt-value.red { color: var(--red-bright); text-shadow: 0 0 6px var(--red-bright), 0 0 14px rgba(255, 46, 62, 0.5); }
+  .crt-label {
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+    color: var(--ink); margin-top: 12px; text-transform: uppercase; letter-spacing: 0.18em;
+    text-align: center; background: var(--yellow); border: 2px solid var(--black); padding: 4px 6px;
+  }
+
+  .section-head {
+    margin: 40px 0 16px; display: flex; align-items: stretch;
+    border: 4px solid var(--black); background: var(--black); box-shadow: 0 5px 0 var(--black);
+  }
+  .section-head .tag {
+    background: var(--red); color: var(--panel); padding: 12px 20px;
+    font-family: 'Bungee', sans-serif; font-size: 18px; letter-spacing: 0.04em;
+    text-transform: uppercase; border-right: 4px solid var(--black);
+  }
+  .section-head .desc {
+    background: var(--yellow); color: var(--black); padding: 12px 20px;
+    font-family: 'Russo One', sans-serif; font-size: 13px; letter-spacing: 0.14em;
+    text-transform: uppercase; display: flex; align-items: center; flex: 1;
+  }
+  .section-head .stamp {
+    background: var(--panel); color: var(--black); padding: 12px 18px;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    border-left: 4px solid var(--black); display: flex; align-items: center;
+  }
+
+  .gantt-wrap { background: var(--metal); border: 5px solid var(--black); box-shadow: 0 7px 0 var(--black); padding: 18px; position: relative; }
+  .gantt-screen { background: var(--panel); border: 3px solid var(--black); overflow: hidden; }
+  .gantt-header {
+    display: grid; grid-template-columns: 340px repeat(8, 1fr);
+    background: var(--black); color: var(--yellow);
+    font-family: 'Russo One', sans-serif; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.16em;
+  }
+  .gantt-header > div { padding: 14px 12px; border-right: 2px solid var(--yellow-dark); text-align: center; }
+  .gantt-header > div:first-child { text-align: left; padding-left: 18px; }
+  .gantt-header > div:last-child { border-right: none; }
+
+  .gantt-row {
+    display: grid; grid-template-columns: 340px repeat(8, 1fr);
+    border-bottom: 2px solid var(--black); min-height: 56px; background: var(--panel);
+  }
+  .gantt-row:last-child { border-bottom: none; }
+  .gantt-row:nth-child(even) { background: rgba(0, 0, 0, 0.04); }
+  .gantt-row:hover { background: var(--yellow); }
+  .gantt-row.milestone-row { background: rgba(215, 38, 56, 0.1) !important; }
+
+  .gantt-label {
+    padding: 12px 16px; font-family: 'Russo One', sans-serif; font-size: 13px;
+    border-right: 3px solid var(--black);
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    color: var(--ink); letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .gantt-label .name { flex: 1; display: flex; align-items: center; gap: 8px; }
+  .gantt-label .meta { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+  .gantt-grid { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(8, 1fr); position: relative; }
+  .gantt-grid > div { border-right: 1px dashed rgba(0, 0, 0, 0.2); }
+  .gantt-grid > div:last-child { border-right: none; }
+
+  .bar {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 28px; display: flex; align-items: center; padding: 0 12px;
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-transform: uppercase; letter-spacing: 0.1em;
+    border: 3px solid var(--black); color: var(--black);
+  }
+  .bar.foundation { background: var(--crt-green); box-shadow: 0 3px 0 var(--black); }
+  .bar.audit { background: #59c3f5; box-shadow: 0 3px 0 var(--black); }
+  .bar.supplier { background: var(--red); color: var(--panel); box-shadow: 0 3px 0 var(--black); }
+  .bar.tbd {
+    background: repeating-linear-gradient(-45deg, var(--yellow) 0 8px, var(--black) 8px 16px);
+    color: var(--black); box-shadow: 0 3px 0 var(--black);
+  }
+  .bar.tbd span { background: var(--panel); padding: 2px 6px; border: 2px solid var(--black); }
+
+  .milestone-btn {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 36px; height: 36px; background: var(--red);
+    border: 4px solid var(--black); border-radius: 50%;
+    box-shadow:
+      inset 0 -4px 6px rgba(0, 0, 0, 0.45),
+      inset 0 4px 6px rgba(255, 255, 255, 0.2),
+      0 0 16px rgba(215, 38, 56, 0.6),
+      0 4px 0 var(--black);
+    animation: pulse-btn 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-btn {
+    0%, 100% { box-shadow: inset 0 -4px 6px rgba(0, 0, 0, 0.45), inset 0 4px 6px rgba(255, 255, 255, 0.2), 0 0 16px rgba(215, 38, 56, 0.5), 0 4px 0 var(--black); }
+    50% { box-shadow: inset 0 -4px 6px rgba(0, 0, 0, 0.45), inset 0 4px 6px rgba(255, 255, 255, 0.2), 0 0 26px rgba(215, 38, 56, 0.9), 0 0 40px rgba(255, 46, 62, 0.4), 0 4px 0 var(--black); }
+  }
+  .milestone-label {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: 'Bungee', sans-serif; font-size: 12px; color: var(--red);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--black); padding: 4px 10px; border: 2px solid var(--red); white-space: nowrap;
+  }
+
+  .doc-led {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--green); background: var(--black);
+    border: 2px solid var(--green); padding: 2px 7px;
+    box-shadow: 0 0 6px rgba(46, 204, 113, 0.5);
+  }
+  .doc-led::before {
+    content: ''; width: 7px; height: 7px; background: var(--green-bright);
+    border-radius: 50%; box-shadow: 0 0 6px var(--green-bright);
+    animation: led-blink 1.6s ease-in-out infinite;
+  }
+  @keyframes led-blink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--green-bright); }
+    50% { opacity: 0.5; box-shadow: 0 0 12px var(--green-bright); }
+  }
+
+  .launch-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--red); color: var(--panel);
+    border: 2px solid var(--black); padding: 5px 10px;
+    font-family: 'Bungee', sans-serif; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    text-decoration: none; box-shadow: 0 3px 0 var(--black);
+    transition: transform 0.08s, box-shadow 0.08s, background 0.1s;
+    flex-shrink: 0; cursor: pointer;
+  }
+  .launch-btn:hover {
+    background: var(--red-bright);
+    box-shadow: 0 3px 0 var(--black), 0 0 12px rgba(255, 46, 62, 0.5);
+  }
+  .launch-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--black); }
+  .launch-btn .arrow { font-family: 'VT323', monospace; font-size: 16px; line-height: 1; transform: translateY(-1px); }
+
+  .item.linked { border-left: 6px solid var(--red); padding-left: 10px; }
+
+  .pill {
+    display: inline-flex; align-items: center; padding: 3px 10px;
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.5;
+    border: 2px solid var(--black); flex-shrink: 0;
+  }
+  .pill.p0 { background: var(--red); color: var(--panel); }
+  .pill.p1 { background: var(--yellow); color: var(--black); }
+  .pill.key { background: var(--black); color: var(--yellow); }
+  .pill.tbd { background: var(--panel); color: var(--ink-soft); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 24px; padding: 14px 22px;
+    background: var(--panel); border: 4px solid var(--black);
+    box-shadow: 0 5px 0 var(--black); margin-top: 20px;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    color: var(--ink); text-transform: uppercase; letter-spacing: 0.12em; align-items: center;
+  }
+  .legend-group { display: flex; align-items: center; gap: 10px; }
+  .swatch { width: 22px; height: 16px; border: 2px solid var(--black); flex-shrink: 0; }
+  .sw-green { background: var(--crt-green); }
+  .sw-blue { background: #59c3f5; }
+  .sw-red { background: var(--red); }
+  .sw-tbd { background: repeating-linear-gradient(-45deg, var(--yellow) 0 5px, var(--black) 5px 10px); }
+  .sw-btn { width: 18px; height: 18px; border-radius: 50%; background: var(--red); box-shadow: 0 0 8px rgba(215, 38, 56, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.4); }
+  .legend-spacer { flex: 1; min-width: 16px; }
+
+  .phases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .phase-card { background: var(--panel); border: 5px solid var(--black); box-shadow: 0 7px 0 var(--black); position: relative; overflow: hidden; }
+  .phase-strip {
+    height: 14px;
+    background: repeating-linear-gradient(-45deg, var(--yellow) 0 14px, var(--black) 14px 28px);
+    border-bottom: 3px solid var(--black);
+  }
+  .phase-body { padding: 22px 26px 26px; }
+  .phase-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .phase-num {
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    color: var(--panel); background: var(--red); padding: 4px 10px;
+    border: 2px solid var(--black); letter-spacing: 0.18em; text-transform: uppercase;
+    display: inline-block; margin-bottom: 10px;
+  }
+  .phase-title { font-family: 'Bungee', sans-serif; font-size: 22px; color: var(--black); letter-spacing: 0.02em; text-transform: uppercase; line-height: 1; }
+  .phase-window {
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    color: var(--black); background: var(--yellow); padding: 4px 10px;
+    border: 2px solid var(--black); letter-spacing: 0.12em; text-transform: uppercase; flex-shrink: 0;
+  }
+  .phase-desc {
+    font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink-soft);
+    margin: 10px 0 18px; line-height: 1.55;
+    border-left: 4px solid var(--red); padding-left: 12px;
+  }
+  .phase-items { display: flex; flex-direction: column; gap: 8px; }
+  .item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: #fff; border: 2px solid var(--black);
+    font-size: 13px; gap: 12px; transition: background 0.12s;
+  }
+  .item:hover { background: var(--yellow); }
+  .item-name { font-family: 'Russo One', sans-serif; font-weight: 500; color: var(--ink); letter-spacing: 0.02em; display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .item-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .item-date { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .phase-card.future .phase-strip {
+    background: repeating-linear-gradient(-45deg, var(--red) 0 14px, var(--black) 14px 28px);
+  }
+  .phase-card.future .phase-num { background: var(--black); color: var(--yellow); }
+  .phase-card.future .phase-desc { border-left-color: var(--black); }
+
+  footer {
+    margin-top: 48px; background: var(--black); color: var(--yellow);
+    padding: 14px 22px; border: 4px solid var(--black);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; box-shadow: 0 5px 0 var(--black);
+  }
+  footer .right { color: var(--red); }
+
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .phases { grid-template-columns: 1fr; }
+    .gantt-header, .gantt-row { grid-template-columns: 200px repeat(8, 1fr); }
+    .gantt-label { padding: 10px; font-size: 11px; }
+    h1 { font-size: 28px; }
+    .header-body { grid-template-columns: 1fr; }
+    .controls { align-items: flex-start; }
+    .section-head { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="hazard"></div>
+    <div class="header-body">
+      <span class="rivet tl"></span>
+      <span class="rivet tr"></span>
+      <div class="atomic">
+        <div class="nucleus"></div>
+        <div class="orbit"></div>
+        <div class="orbit"></div>
+        <div class="orbit"></div>
+      </div>
+      <div class="title-block">
+        <span class="eyebrow">DEXLAB // Quality Division</span>
+        <h1>IQS Roadmap <span class="accent">2026</span></h1>
+        <div class="subtitle">Intelligent Quality System :: Experiment in Progress</div>
+      </div>
+      <div class="controls">
+        <div class="light"><span class="bulb"></span> Rec.</div>
+        <div class="light"><span class="bulb green"></span> Online</div>
+        <div class="light"><span class="bulb yellow"></span> Stable</div>
+      </div>
+    </div>
+    <div class="hazard"></div>
+  </header>
+
+  <div id="source-bar">
+    <div class="src-info">
+      <span class="dot"></span>
+      <span class="src-name">IQS ROADMAP.xlsx</span>
+      <span class="src-meta" id="src-meta">— Snapshot</span>
+    </div>
+  </div>
+
+  <section class="stats" id="stats"></section>
+
+  <div class="section-head">
+    <div class="tag">Timeline</div>
+    <div class="desc">Experiment Schedule :: May → December 2026</div>
+    <div class="stamp">DEXLAB-IQS-001</div>
+  </div>
+
+  <div class="gantt-wrap">
+    <span class="rivet tl"></span>
+    <span class="rivet tr"></span>
+    <span class="rivet bl"></span>
+    <span class="rivet br"></span>
+    <div class="gantt-screen" id="gantt"></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-group"><span class="swatch sw-green"></span> Foundation</div>
+    <div class="legend-group"><span class="swatch sw-blue"></span> Audits</div>
+    <div class="legend-group"><span class="swatch sw-red"></span> Supplier</div>
+    <div class="legend-group"><span class="swatch sw-tbd"></span> TBD Window</div>
+    <div class="legend-group"><span class="swatch sw-btn"></span> Key Milestone</div>
+    <div class="legend-group"><span class="doc-led" style="font-size: 9px;">Doc Attached</span></div>
+    <div class="legend-spacer"></div>
+    <div class="legend-group"><span class="pill p0">P0</span> Must</div>
+    <div class="legend-group"><span class="pill p1">P1</span> Should</div>
+    <div class="legend-group"><span class="pill key">KEY</span> Decision</div>
+  </div>
+
+  <div class="section-head">
+    <div class="tag">Modules</div>
+    <div class="desc">Experiment Chambers :: Grouped Delivery</div>
+    <div class="stamp">04 Phases</div>
+  </div>
+
+  <div class="phases" id="phases"></div>
+
+  <footer>
+    <span>DEXLAB // Source: IQS ROADMAP.xlsx</span>
+    <span class="right">⚠ Authorized Personnel Only ⚠</span>
+  </footer>
+</div>
+
+<script>
+/* ============================================================================
+   IQS ROADMAP DATA — baked-in snapshot from IQS ROADMAP.xlsx
+   To update: edit this array, save, re-deploy.
+   When the live JSON pipeline is wired up, swap this block for:
+     const ROWS = await fetch('./roadmap.json').then(r => r.json());
+   ============================================================================ */
+const SNAPSHOT_DATE = '2026-05-21';
+const ROWS = [
+  { name: "IQS Platform Selection",                       link: "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016454078", priority: "P0",  start: "2026-05-01", end: "2026-05-15" },
+  { name: "IQS Architecture - Core Domains",              link: "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016944975", priority: "P0",  start: "2026-05-01", end: null },
+  { name: "IQS Security Protocols",                       link: null, priority: "P0",  start: "2026-05-15", end: "2026-06-01" },
+  { name: "Factory/Supplier Integration [PLM]",           link: null, priority: "P0",  start: null,         end: null },
+  { name: "Factory Audits",                               link: null, priority: "P0",  start: null,         end: null },
+  { name: "Factory Audit Template Upload & Ingestion",    link: null, priority: "P0",  start: null,         end: null },
+  { name: "Social Audit PDF Upload & Ingestion",          link: null, priority: "P0",  start: null,         end: null, startRaw: "Q2, 26'" },
+  { name: "NC/CAPA Capabilities",                         link: null, priority: "P0",  start: null,         end: null },
+  { name: "Audit Calendar-Reminder Capabilities",         link: null, priority: "P1",  start: null,         end: null },
+  { name: "Supplier Portal",                              link: null, priority: "P0",  start: null,         end: null },
+  { name: "AI Recommendation for Audit Frequencies",      link: null, priority: "P1",  start: null,         end: null },
+  { name: "Final QMS Contract Decision",                  link: null, priority: "KEY", start: "2026-11-01", end: "2026-11-01" },
+  { name: "Product/SKU Integration [PLM]",                link: null, priority: "",    start: null,         end: null },
+  { name: "Consumable Inspections",                       link: null, priority: "",    start: null,         end: null },
+  { name: "Production Run Tracking",                      link: null, priority: "",    start: null,         end: null },
+];
+
+/* ============================================================================
+   RENDERING
+   ============================================================================ */
+const TIMELINE_START = new Date(2026, 4, 1);
+const TIMELINE_END   = new Date(2026, 11, 31);
+const TIMELINE_DAYS  = (TIMELINE_END - TIMELINE_START) / 86400000;
+
+function categorize(row) {
+  const n = row.name.toLowerCase();
+  if (row.priority === 'KEY') return 'milestone';
+  if (n.match(/platform|architecture|security|protocol/)) return 'foundation';
+  if (n.match(/audit|capa|nc\b|template|social|factory/)) return 'audit';
+  if (n.match(/supplier|portal|calendar|reminder|ai recommend|frequencies/)) return 'supplier';
+  if (n.match(/product|sku|consumable|inspection|production run/)) return 'future';
+  return 'audit';
+}
+function phaseOf(row) {
+  const cat = categorize(row);
+  if (cat === 'foundation') return 1;
+  if (cat === 'audit') return 2;
+  if (cat === 'supplier' || cat === 'milestone') return 3;
+  return 4;
+}
+function parseDate(v) {
+  if (!v) return null;
+  const d = new Date(v);
+  return isNaN(d) ? null : d;
+}
+function reviveRows(rows) {
+  return rows.map(r => ({ ...r, start: parseDate(r.start), end: parseDate(r.end) }));
+}
+
+function pad2(n) { return String(n).padStart(2, '0'); }
+function shortDate(d) {
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[d.getMonth()]} ${d.getDate()}`;
+}
+function pctFromDate(d) {
+  if (!d) return 0;
+  const days = (d - TIMELINE_START) / 86400000;
+  return Math.max(0, Math.min(100, (days / TIMELINE_DAYS) * 100));
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+
+function renderStats(rows) {
+  const total = rows.length;
+  const p0 = rows.filter(r => r.priority === 'P0').length;
+  const p1 = rows.filter(r => r.priority === 'P1').length;
+  const key = rows.filter(r => r.priority === 'KEY').length;
+  const stats = [
+    { value: total, label: 'Experiments', tone: '' },
+    { value: pad2(p0), label: 'P0 // Critical', tone: 'red' },
+    { value: pad2(p1), label: 'P1 // Standard', tone: 'amber' },
+    { value: pad2(key), label: 'Key Gate', tone: '' },
+  ];
+  document.getElementById('stats').innerHTML = stats.map(s => `
+    <div class="crt">
+      <span class="rivet tl"></span><span class="rivet tr"></span>
+      <span class="rivet bl"></span><span class="rivet br"></span>
+      <div class="crt-screen"><div class="crt-value ${s.tone}">${s.value}</div></div>
+      <div class="crt-label">${s.label}</div>
+    </div>`).join('');
+}
+
+function computeBar(r, cat, isMilestone) {
+  if (isMilestone) {
+    const pos = r.start ? pctFromDate(r.start) : 80;
+    return `
+      <div class="milestone-btn" style="left: ${pos}%;"></div>
+      <span class="milestone-label" style="left: ${pos}%; padding-left: 14px;">${escapeHtml(r.start ? shortDate(r.start) : 'TBD')} 2026</span>`;
+  }
+  let leftPct, widthPct, label, tbd = false;
+  if (r.start && r.end) {
+    leftPct = pctFromDate(r.start);
+    widthPct = Math.max(4, pctFromDate(r.end) - leftPct);
+    label = `${shortDate(r.start)} – ${shortDate(r.end)}`;
+  } else if (r.start && !r.end) {
+    leftPct = pctFromDate(r.start);
+    widthPct = 25;
+    label = `${shortDate(r.start)} → TBD`;
+    tbd = true;
+  } else if (typeof r.startRaw === 'string' && /Q\d/i.test(r.startRaw)) {
+    const m = r.startRaw.match(/Q(\d)/i);
+    const q = parseInt(m[1], 10);
+    leftPct = pctFromDate(new Date(2026, (q - 1) * 3, 1));
+    widthPct = 25;
+    label = r.startRaw.replace(/'/, ' 20').replace(',', '').trim();
+  } else {
+    const cfg = cat === 'foundation' ? { left: 0, width: 15 }
+               : cat === 'audit'      ? { left: 12.5, width: 37.5 }
+               : cat === 'supplier'   ? { left: 25, width: 50 }
+               :                        { left: 50, width: 37.5 };
+    leftPct = cfg.left; widthPct = cfg.width;
+    label = 'Window TBD';
+    tbd = true;
+  }
+  leftPct = Math.max(0, Math.min(95, leftPct));
+  widthPct = Math.max(4, Math.min(100 - leftPct, widthPct));
+  const className = tbd ? 'bar tbd' : `bar ${cat}`;
+  const content = tbd ? `<span>${escapeHtml(label)}</span>` : escapeHtml(label);
+  return `<div class="${className}" style="left: ${leftPct}%; width: ${widthPct}%;">${content}</div>`;
+}
+
+function renderGantt(rows) {
+  const months = ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const headerHtml = `
+    <div class="gantt-header">
+      <div>Initiative</div>
+      ${months.map(m => `<div>${m}</div>`).join('')}
+    </div>`;
+  const rowsHtml = rows.map(r => {
+    const cat = categorize(r);
+    const isMilestone = r.priority === 'KEY';
+    const bar = computeBar(r, cat, isMilestone);
+    const labelMeta = [];
+    if (r.link) labelMeta.push(`<span class="doc-led">Doc</span>`);
+    if (r.priority) labelMeta.push(`<span class="pill ${r.priority.toLowerCase()}">${r.priority}</span>`);
+    const nameHtml = r.link
+      ? `<a href="${escapeAttr(r.link)}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;" title="Open: ${escapeAttr(r.link)}">${escapeHtml(r.name)}</a>`
+      : escapeHtml(r.name);
+    return `
+      <div class="gantt-row ${isMilestone ? 'milestone-row' : ''}">
+        <div class="gantt-label">
+          <span class="name">${nameHtml}</span>
+          <span class="meta">${labelMeta.join('')}</span>
+        </div>
+        <div class="gantt-grid">
+          ${Array(8).fill('<div></div>').join('')}
+          ${bar}
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('gantt').innerHTML = headerHtml + rowsHtml;
+}
+
+function renderItem(r) {
+  const linked = !!r.link;
+  const dateText = formatDateRange(r);
+  const priority = r.priority || 'TBD';
+  const pillClass = priority === 'TBD' ? 'tbd' : priority.toLowerCase();
+  const nameHtml = linked
+    ? `<a href="${escapeAttr(r.link)}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none; border-bottom: 2px solid var(--red);" title="Open: ${escapeAttr(r.link)}">${escapeHtml(r.name)}</a>`
+    : escapeHtml(r.name);
+  const ledHtml = linked ? `<span class="doc-led">Doc</span>` : '';
+  const launchHtml = linked
+    ? `<a class="launch-btn" href="${escapeAttr(r.link)}" target="_blank" rel="noopener" title="Open ${escapeAttr(r.link)}">Launch <span class="arrow">↗</span></a>`
+    : '';
+  return `
+    <div class="item ${linked ? 'linked' : ''}">
+      <span class="item-name">${nameHtml}${ledHtml}</span>
+      <span class="item-meta">
+        <span class="item-date">${dateText}</span>
+        <span class="pill ${pillClass}">${priority}</span>
+        ${launchHtml}
+      </span>
+    </div>`;
+}
+
+function formatDateRange(r) {
+  if (r.start && r.end) {
+    if (r.start.getTime() === r.end.getTime()) return shortDate(r.start) + ' 2026';
+    return `${shortDate(r.start)} – ${shortDate(r.end)}`;
+  }
+  if (r.start) return `${shortDate(r.start)} → TBD`;
+  if (typeof r.startRaw === 'string' && r.startRaw.trim()) {
+    return r.startRaw.replace(/'/, ' 20').replace(',', '').trim();
+  }
+  return 'TBD';
+}
+
+function renderPhases(rows) {
+  const PHASES = [
+    { num: 'Chamber 01', title: 'Foundation', window: 'May → Jun 2026', desc: 'Power up the IQS platform, core domain architecture, and security baseline.', cls: '' },
+    { num: 'Chamber 02', title: 'Factory Audits', window: 'Q2 → Q3 2026', desc: 'Build the audit data layer: integration, template ingestion, and NC / CAPA workflows.', cls: '' },
+    { num: 'Chamber 03', title: 'Supplier & AI', window: 'Q3 → Q4 2026', desc: 'Open the system to suppliers and layer in scheduling and AI recommendations.', cls: '' },
+    { num: 'Chamber 04', title: 'Product & Inspection', window: 'Unscheduled', desc: 'Future scope dependent on QMS contract decision and PLM dependencies.', cls: 'future' },
+  ];
+  const grouped = [[], [], [], []];
+  rows.forEach(r => grouped[phaseOf(r) - 1].push(r));
+  const html = PHASES.map((phase, i) => {
+    const items = grouped[i].map(renderItem).join('');
+    return `
+      <div class="phase-card ${phase.cls}">
+        <div class="phase-strip"></div>
+        <div class="phase-body">
+          <span class="phase-num">${phase.num}</span>
+          <div class="phase-head">
+            <span class="phase-title">${phase.title}</span>
+            <span class="phase-window">${phase.window}</span>
+          </div>
+          <p class="phase-desc">${phase.desc}</p>
+          <div class="phase-items">
+            ${items || '<div style="font-family: \\'Space Mono\\', monospace; font-size: 11px; color: #888; padding: 12px; text-align: center; letter-spacing: 0.1em;">// No items in this chamber</div>'}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('phases').innerHTML = html;
+}
+
+const rows = reviveRows(ROWS);
+renderStats(rows);
+renderGantt(rows);
+renderPhases(rows);
+document.getElementById('src-meta').textContent = '— Snapshot ' + SNAPSHOT_DATE;
+</script>
+</body>
+</html>
