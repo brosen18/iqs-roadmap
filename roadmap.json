@@ -1,0 +1,114 @@
+{
+  "updatedAt": "2026-05-21",
+  "source": "IQS ROADMAP.xlsx",
+  "rows": [
+    {
+      "name": "IQS Platform Selection",
+      "link": "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016454078",
+      "priority": "P0",
+      "start": "2026-05-01",
+      "end": "2026-05-15"
+    },
+    {
+      "name": "IQS Architecture - Core Domains",
+      "link": "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016944975",
+      "priority": "P0",
+      "start": "2026-05-01",
+      "end": null
+    },
+    {
+      "name": "IQS Security Protocols",
+      "link": null,
+      "priority": "P0",
+      "start": "2026-05-15",
+      "end": "2026-06-01"
+    },
+    {
+      "name": "Factory/Supplier Integration [PLM]",
+      "link": null,
+      "priority": "P0",
+      "start": null,
+      "end": null,
+      "startRaw": "June 1 2026"
+    },
+    {
+      "name": "Factory Audits",
+      "link": null,
+      "priority": "P0",
+      "start": null,
+      "end": null,
+      "startRaw": "june 20th, 2026"
+    },
+    {
+      "name": "Factory Audit Template Upload & Ingestion",
+      "link": null,
+      "priority": "P0",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Social Audit PDF Upload & Ingestion",
+      "link": null,
+      "priority": "P0",
+      "start": null,
+      "end": null,
+      "startRaw": "july,1,2026"
+    },
+    {
+      "name": "NC/CAPA Capabilities",
+      "link": null,
+      "priority": "P0",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Audit Calendar-Reminder Capabilities",
+      "link": null,
+      "priority": "P1",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Supplier Portal",
+      "link": null,
+      "priority": "P0",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "AI Recommendation for Audit Frequencies",
+      "link": null,
+      "priority": "P1",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Final QMS Contract Decision",
+      "link": null,
+      "priority": "KEY",
+      "start": "2026-11-01",
+      "end": "2026-11-01"
+    },
+    {
+      "name": "Product/SKU Integration [PLM]",
+      "link": null,
+      "priority": "",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Consumable Inspections",
+      "link": null,
+      "priority": "",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Production Run Tracking",
+      "link": null,
+      "priority": "",
+      "start": null,
+      "end": null
+    }
+  ]
+}
