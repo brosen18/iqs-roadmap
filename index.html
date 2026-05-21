@@ -142,6 +142,7 @@
     width: 10px; height: 10px; background: var(--green-bright); border-radius: 50%;
     box-shadow: 0 0 8px var(--green-bright); flex-shrink: 0;
   }
+  #source-bar .dot.error { background: var(--red); box-shadow: 0 0 8px var(--red); }
   #source-bar .src-name { color: var(--panel); }
   #source-bar .src-meta { color: var(--yellow); opacity: 0.8; }
 
@@ -198,7 +199,7 @@
   }
 
   .gantt-wrap { background: var(--metal); border: 5px solid var(--black); box-shadow: 0 7px 0 var(--black); padding: 18px; position: relative; }
-  .gantt-screen { background: var(--panel); border: 3px solid var(--black); overflow: hidden; }
+  .gantt-screen { background: var(--panel); border: 3px solid var(--black); overflow: hidden; min-height: 60px; }
   .gantt-header {
     display: grid; grid-template-columns: 340px repeat(8, 1fr);
     background: var(--black); color: var(--yellow);
@@ -376,6 +377,13 @@
   .phase-card.future .phase-num { background: var(--black); color: var(--yellow); }
   .phase-card.future .phase-desc { border-left-color: var(--black); }
 
+  .load-state {
+    padding: 24px; font-family: 'Space Mono', monospace; font-size: 13px;
+    font-weight: 700; text-align: center; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .load-state.error { color: var(--red); }
+
   footer {
     margin-top: 48px; background: var(--black); color: var(--yellow);
     padding: 14px 22px; border: 4px solid var(--black);
@@ -427,13 +435,15 @@
 
   <div id="source-bar">
     <div class="src-info">
-      <span class="dot"></span>
+      <span class="dot" id="src-dot"></span>
       <span class="src-name">IQS ROADMAP.xlsx</span>
-      <span class="src-meta" id="src-meta">— Snapshot</span>
+      <span class="src-meta" id="src-meta">— Loading...</span>
     </div>
   </div>
 
-  <section class="stats" id="stats"></section>
+  <section class="stats" id="stats">
+    <div class="load-state" style="grid-column: 1 / -1;">Loading data...</div>
+  </section>
 
   <div class="section-head">
     <div class="tag">Timeline</div>
@@ -446,7 +456,9 @@
     <span class="rivet tr"></span>
     <span class="rivet bl"></span>
     <span class="rivet br"></span>
-    <div class="gantt-screen" id="gantt"></div>
+    <div class="gantt-screen" id="gantt">
+      <div class="load-state">Loading data...</div>
+    </div>
   </div>
 
   <div class="legend">
@@ -471,40 +483,17 @@
   <div class="phases" id="phases"></div>
 
   <footer>
-    <span>DEXLAB // Source: IQS ROADMAP.xlsx</span>
+    <span>DEXLAB // Source: IQS ROADMAP.xlsx via roadmap.json</span>
     <span class="right">⚠ Authorized Personnel Only ⚠</span>
   </footer>
 </div>
 
 <script>
 /* ============================================================================
-   IQS ROADMAP DATA — baked-in snapshot from IQS ROADMAP.xlsx
-   To update: edit this array, save, re-deploy.
-   When the live JSON pipeline is wired up, swap this block for:
-     const ROWS = await fetch('./roadmap.json').then(r => r.json());
+   DATA SOURCE — fetched live from roadmap.json (same directory)
+   Update roadmap.json on GitHub and this page re-renders on next load.
    ============================================================================ */
-const SNAPSHOT_DATE = '2026-05-21';
-const ROWS = [
-  { name: "IQS Platform Selection",                       link: "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016454078", priority: "P0",  start: "2026-05-01", end: "2026-05-15" },
-  { name: "IQS Architecture - Core Domains",              link: "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016944975", priority: "P0",  start: "2026-05-01", end: null },
-  { name: "IQS Security Protocols",                       link: null, priority: "P0",  start: "2026-05-15", end: "2026-06-01" },
-  { name: "Factory/Supplier Integration [PLM]",           link: null, priority: "P0",  start: null,         end: null },
-  { name: "Factory Audits",                               link: null, priority: "P0",  start: null,         end: null },
-  { name: "Factory Audit Template Upload & Ingestion",    link: null, priority: "P0",  start: null,         end: null },
-  { name: "Social Audit PDF Upload & Ingestion",          link: null, priority: "P0",  start: null,         end: null, startRaw: "Q2, 26'" },
-  { name: "NC/CAPA Capabilities",                         link: null, priority: "P0",  start: null,         end: null },
-  { name: "Audit Calendar-Reminder Capabilities",         link: null, priority: "P1",  start: null,         end: null },
-  { name: "Supplier Portal",                              link: null, priority: "P0",  start: null,         end: null },
-  { name: "AI Recommendation for Audit Frequencies",      link: null, priority: "P1",  start: null,         end: null },
-  { name: "Final QMS Contract Decision",                  link: null, priority: "KEY", start: "2026-11-01", end: "2026-11-01" },
-  { name: "Product/SKU Integration [PLM]",                link: null, priority: "",    start: null,         end: null },
-  { name: "Consumable Inspections",                       link: null, priority: "",    start: null,         end: null },
-  { name: "Production Run Tracking",                      link: null, priority: "",    start: null,         end: null },
-];
 
-/* ============================================================================
-   RENDERING
-   ============================================================================ */
 const TIMELINE_START = new Date(2026, 4, 1);
 const TIMELINE_END   = new Date(2026, 11, 31);
 const TIMELINE_DAYS  = (TIMELINE_END - TIMELINE_START) / 86400000;
@@ -533,7 +522,6 @@ function parseDate(v) {
 function reviveRows(rows) {
   return rows.map(r => ({ ...r, start: parseDate(r.start), end: parseDate(r.end) }));
 }
-
 function pad2(n) { return String(n).padStart(2, '0'); }
 function shortDate(d) {
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -686,6 +674,7 @@ function renderPhases(rows) {
   rows.forEach(r => grouped[phaseOf(r) - 1].push(r));
   const html = PHASES.map((phase, i) => {
     const items = grouped[i].map(renderItem).join('');
+    const empty = '<div style="font-family: monospace; font-size: 11px; color: #888; padding: 12px; text-align: center; letter-spacing: 0.1em;">// No items in this chamber</div>';
     return `
       <div class="phase-card ${phase.cls}">
         <div class="phase-strip"></div>
@@ -697,7 +686,7 @@ function renderPhases(rows) {
           </div>
           <p class="phase-desc">${phase.desc}</p>
           <div class="phase-items">
-            ${items || '<div style="font-family: monospace; font-size: 11px; color: #888; padding: 12px; text-align: center; letter-spacing: 0.1em;">// No items in this chamber</div>'}
+            ${items || empty}
           </div>
         </div>
       </div>`;
@@ -705,11 +694,31 @@ function renderPhases(rows) {
   document.getElementById('phases').innerHTML = html;
 }
 
-const rows = reviveRows(ROWS);
-renderStats(rows);
-renderGantt(rows);
-renderPhases(rows);
-document.getElementById('src-meta').textContent = '— Snapshot ' + SNAPSHOT_DATE;
+async function init() {
+  try {
+    // cache-bust so we always get the latest JSON, not the CDN-cached one
+    const response = await fetch('./roadmap.json?v=' + Date.now());
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const data = await response.json();
+    if (!data || !Array.isArray(data.rows)) throw new Error('Invalid roadmap.json structure (missing "rows" array)');
+
+    const rows = reviveRows(data.rows);
+    renderStats(rows);
+    renderGantt(rows);
+    renderPhases(rows);
+    document.getElementById('src-meta').textContent = '— Updated ' + (data.updatedAt || '—');
+  } catch (err) {
+    console.error('Roadmap load failed:', err);
+    document.getElementById('src-dot').classList.add('error');
+    document.getElementById('src-meta').textContent = '— LOAD FAILED: ' + err.message;
+    const errorHtml = `<div class="load-state error" style="grid-column: 1 / -1;">DATA LOAD FAILED<br><span style="font-size: 11px; opacity: 0.7;">${escapeHtml(err.message)}</span></div>`;
+    document.getElementById('stats').innerHTML = errorHtml;
+    document.getElementById('gantt').innerHTML = `<div class="load-state error">${escapeHtml(err.message)}</div>`;
+    document.getElementById('phases').innerHTML = '';
+  }
+}
+
+init();
 </script>
 </body>
 </html>
