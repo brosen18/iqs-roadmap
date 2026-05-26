@@ -48,7 +48,7 @@
     {
       "name": "Leadership Check-in Demo",
       "link": null,
-      "priority": "",
+      "priority": "KEY",
       "start": "2026-08-16",
       "end": "2026-08-16"
     },
