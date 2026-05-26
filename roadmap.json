@@ -20,42 +20,49 @@
       "name": "IQS Security Protocols",
       "link": null,
       "priority": "P0",
-      "start": "2026-05-15",
-      "end": "2026-06-02"
+      "start": "2026-05-13",
+      "end": "2026-06-30"
     },
     {
       "name": "Factory/Supplier Integration [PLM]",
       "link": "https://chewyinc.atlassian.net/wiki/x/lwMgLAE",
       "priority": "P0",
-      "start": "2026-06-02",
+      "start": "2026-05-19",
       "end": null
     },
     {
       "name": "Factory Audits [HGs & Consumables]",
       "link": null,
       "priority": "P0",
-      "start": "2026-06-20",
+      "start": "2026-07-16",
       "end": null
     },
     {
       "name": "NC/CAPA Capabilities",
       "link": null,
       "priority": "P0",
-      "start": "2026-07-02",
+      "start": null,
+      "end": null
+    },
+    {
+      "name": "Leadership Check-in Demo",
+      "link": null,
+      "priority": "KEY",
+      "start": null,
       "end": null
     },
     {
       "name": "Factory Audit Template Upload & Ingestion",
       "link": null,
       "priority": "P0",
-      "start": "2026-08-02",
+      "start": null,
       "end": null
     },
     {
       "name": "Social Audit PDF Upload & Ingestion",
       "link": null,
       "priority": "P0",
-      "start": "2026-08-02",
+      "start": null,
       "end": null
     },
     {
