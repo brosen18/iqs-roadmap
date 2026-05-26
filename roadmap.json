@@ -42,49 +42,55 @@
       "link": null,
       "priority": "P0",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "Leadership Check-in Demo",
       "link": null,
-      "priority": "KEY",
-      "start": null,
-      "end": null
+      "priority": "",
+      "start": "2026-08-16",
+      "end": "2026-08-16"
     },
     {
       "name": "Factory Audit Template Upload & Ingestion",
       "link": null,
       "priority": "P0",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "Social Audit PDF Upload & Ingestion",
       "link": null,
       "priority": "P0",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "QA Calendar - Audit Reminder Capabilities",
       "link": null,
       "priority": "P1",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "AI Recommendation for Audit Frequencies",
       "link": null,
       "priority": "P1",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "Supplier Portal with NC/CAPA Responses",
       "link": null,
       "priority": "P0",
-      "start": "2027-12-02",
-      "end": "2027-03-01"
+      "start": null,
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "Final QMS Contract Decision",
@@ -98,21 +104,24 @@
       "link": null,
       "priority": "P0",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "Consumable Product Inspections",
       "link": null,
       "priority": "",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     },
     {
       "name": "Production Run Tracking",
       "link": null,
       "priority": "",
       "start": null,
-      "end": null
+      "end": null,
+      "startRaw": "TBD"
     }
   ]
 }
