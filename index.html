@@ -476,7 +476,7 @@
 
   <div class="section-head">
     <div class="tag">Modules</div>
-    <div class="desc">Experiment Chambers :: Grouped Delivery</div>
+    <div class="desc">Grouped by column E (Module) in IQS ROADMAP.xlsx</div>
     <div class="stamp">04 Phases</div>
   </div>
 
@@ -507,13 +507,40 @@ function categorize(row) {
   if (n.match(/product|sku|consumable|inspection|production run/)) return 'future';
   return 'audit';
 }
-function phaseOf(row) {
-  const cat = categorize(row);
-  if (cat === 'foundation') return 1;
-  if (cat === 'audit') return 2;
-  if (cat === 'supplier' || cat === 'milestone') return 3;
-  return 4;
+function moduleLabel(r) {
+  const m = (r.module || '').trim();
+  return m || 'Unassigned';
 }
+
+function buildModuleGroups(rows, preferredOrder) {
+  const grouped = new Map();
+  const order = [];
+  const ensure = (key) => {
+    if (!grouped.has(key)) {
+      grouped.set(key, []);
+      order.push(key);
+    }
+  };
+  (preferredOrder || []).forEach(ensure);
+  rows.forEach(r => {
+    const k = moduleLabel(r);
+    ensure(k);
+    grouped.get(k).push(r);
+  });
+  return order.map(k => ({ title: k, items: grouped.get(k) || [] }));
+}
+
+function windowLabelForItems(items) {
+  const starts = items.map(r => r.start).filter(Boolean);
+  const ends = items.map(r => r.end).filter(Boolean);
+  if (!starts.length) return 'Schedule TBD';
+  const minS = new Date(Math.min(...starts.map(d => d.getTime())));
+  if (!ends.length) return `${shortDate(minS)} → TBD`;
+  const maxE = new Date(Math.max(...ends.map(d => d.getTime())));
+  if (minS.getTime() === maxE.getTime()) return `${shortDate(minS)} 2026`;
+  return `${shortDate(minS)} – ${shortDate(maxE)}`;
+}
+
 function parseDate(v) {
   if (!v) return null;
   const d = new Date(v);
@@ -663,35 +690,32 @@ function formatDateRange(r) {
   return 'TBD';
 }
 
-function renderPhases(rows) {
-  const PHASES = [
-    { num: 'Chamber 01', title: 'Foundation', window: 'May → Jun 2026', desc: 'Power up the IQS platform, core domain architecture, and security baseline.', cls: '' },
-    { num: 'Chamber 02', title: 'Factory Audits', window: 'Q2 → Q3 2026', desc: 'Build the audit data layer: integration, template ingestion, and NC / CAPA workflows.', cls: '' },
-    { num: 'Chamber 03', title: 'Supplier & AI', window: 'Q3 → Q4 2026', desc: 'Open the system to suppliers and layer in scheduling and AI recommendations.', cls: '' },
-    { num: 'Chamber 04', title: 'Product & Inspection', window: 'Unscheduled', desc: 'Future scope dependent on QMS contract decision and PLM dependencies.', cls: 'future' },
-  ];
-  const grouped = [[], [], [], []];
-  rows.forEach(r => grouped[phaseOf(r) - 1].push(r));
-  const html = PHASES.map((phase, i) => {
-    const items = grouped[i].map(renderItem).join('');
-    const empty = '<div style="font-family: monospace; font-size: 11px; color: #888; padding: 12px; text-align: center; letter-spacing: 0.1em;">// No items in this chamber</div>';
+function renderPhases(rows, moduleOrder) {
+  const groups = buildModuleGroups(rows, moduleOrder);
+  const empty = '<div style="font-family: monospace; font-size: 11px; color: #888; padding: 12px; text-align: center; letter-spacing: 0.1em;">// No items in this module</div>';
+  const html = groups.map((g, i) => {
+    const title = g.title;
+    const items = g.items;
+    const cls = /future|unscheduled/i.test(title) ? 'future' : '';
+    const num = `Module ${String(i + 1).padStart(2, '0')}`;
+    const window = windowLabelForItems(items);
+    const desc = `${items.length} initiative${items.length === 1 ? '' : 's'} assigned in column E`;
+    const body = items.map(renderItem).join('') || empty;
     return `
-      <div class="phase-card ${phase.cls}">
+      <div class="phase-card ${cls}">
         <div class="phase-strip"></div>
         <div class="phase-body">
-          <span class="phase-num">${phase.num}</span>
+          <span class="phase-num">${num}</span>
           <div class="phase-head">
-            <span class="phase-title">${phase.title}</span>
-            <span class="phase-window">${phase.window}</span>
+            <span class="phase-title">${escapeHtml(title)}</span>
+            <span class="phase-window">${escapeHtml(window)}</span>
           </div>
-          <p class="phase-desc">${phase.desc}</p>
-          <div class="phase-items">
-            ${items || empty}
-          </div>
+          <p class="phase-desc">${escapeHtml(desc)}</p>
+          <div class="phase-items">${body}</div>
         </div>
       </div>`;
   }).join('');
-  document.getElementById('phases').innerHTML = html;
+  document.getElementById('phases').innerHTML = html || empty;
 }
 
 async function init() {
@@ -705,7 +729,7 @@ async function init() {
     const rows = reviveRows(data.rows);
     renderStats(rows);
     renderGantt(rows);
-    renderPhases(rows);
+    renderPhases(rows, data.modules);
     document.getElementById('src-meta').textContent = '— Updated ' + (data.updatedAt || '—');
   } catch (err) {
     console.error('Roadmap load failed:', err);
