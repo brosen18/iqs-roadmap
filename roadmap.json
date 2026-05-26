@@ -22,7 +22,7 @@
       "link": "https://chewyinc.atlassian.net/wiki/spaces/MCP/pages/5016944975",
       "priority": "P0",
       "start": "2026-05-02",
-      "end": null,
+      "end": "2026-07-01",
       "module": "Foundation"
     },
     {
@@ -30,7 +30,7 @@
       "link": null,
       "priority": "P0",
       "start": "2026-05-13",
-      "end": "2026-06-30",
+      "end": "2026-07-01",
       "module": "Foundation"
     },
     {
