@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-21",
+  "updatedAt": "2026-05-26",
   "source": "IQS ROADMAP.xlsx",
   "rows": [
     {
@@ -31,7 +31,7 @@
       "end": null
     },
     {
-      "name": "Factory Audits",
+      "name": "Factory Audits [HGs & Consumables]",
       "link": null,
       "priority": "P0",
       "start": "2026-06-20",
@@ -59,18 +59,11 @@
       "end": null
     },
     {
-      "name": "Audit Calendar-Reminder Capabilities",
+      "name": "QA Calendar - Audit Reminder Capabilities",
       "link": null,
       "priority": "P1",
       "start": null,
       "end": null
-    },
-    {
-      "name": "Supplier Portal",
-      "link": null,
-      "priority": "P0",
-      "start": "2027-12-02",
-      "end": "2027-03-01"
     },
     {
       "name": "AI Recommendation for Audit Frequencies",
@@ -78,6 +71,13 @@
       "priority": "P1",
       "start": null,
       "end": null
+    },
+    {
+      "name": "Supplier Portal with NC/CAPA Responses",
+      "link": null,
+      "priority": "P0",
+      "start": "2027-12-02",
+      "end": "2027-03-01"
     },
     {
       "name": "Final QMS Contract Decision",
@@ -89,12 +89,12 @@
     {
       "name": "Product/SKU Integration [PLM]",
       "link": null,
-      "priority": "",
+      "priority": "P0",
       "start": null,
       "end": null
     },
     {
-      "name": "Consumable Inspections",
+      "name": "Consumable Product Inspections",
       "link": null,
       "priority": "",
       "start": null,
